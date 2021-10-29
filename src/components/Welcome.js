@@ -1,24 +1,22 @@
 import {useState, useEffect} from 'react';
 
 export default function Welcome(){
-    const [userInfo, setUserInfo] = useState({"name":"Cheng Pan","status":"active"})
+    const [userInfo, setUserInfo] = useState({})
     const [isMobile, setIsMobile] = useState(false)
 
-    // useEffect(()=>{
-        
-    //     fetch('https://dev-assessment.netlify.app/.netlify/functions/me', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Bear 1F8E9119293D34903371897CB1483FF66D25FDDC5D03C1BED6CC47510550B069'
-    //         }
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {setUserInfo(data)}) 
-    // },[])
-    
-    let boxShadow = 'test'
+    useEffect(()=>{
+        fetch('https://dev-assessment.netlify.app/.netlify/functions/me', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bear 1F8E9119293D34903371897CB1483FF66D25FDDC5D03C1BED6CC47510550B069'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {setUserInfo(data)}) 
+    },[])
 
+    //checks for mobile window size
     const handleResize = () => {
         if(window.innerWidth < 720){
             setIsMobile(true)
@@ -29,7 +27,11 @@ export default function Welcome(){
 
     useEffect(()=>{
         window.addEventListener('resize', handleResize)
-    })
+        handleResize()
+    },[])
+
+    //css for container
+    const boxShadow = 'test'
     const welcomeStyle = {
         display: 'flex',
         flexDirection: 'column',
@@ -43,16 +45,12 @@ export default function Welcome(){
         fontWeight: '500'
     }
 
-    if(isMobile){
-        boxShadow = 'nil'
-        
-    }
-
+    //returns div for loading
     if(!userInfo.status){
         return (
             <div
                 style={welcomeStyle}
-                className={boxShadow}
+                className={!isMobile ? boxShadow:null}
             >
                 Loading...
             </div>
@@ -63,7 +61,7 @@ export default function Welcome(){
     return (
         <div
             style={welcomeStyle}
-            className={boxShadow}
+            className={!isMobile ? boxShadow:null}
         >
             <div>
             Welcome back{isMobile ? "!": ''}
