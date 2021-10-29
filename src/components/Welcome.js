@@ -9,7 +9,7 @@ export default function Welcome(){
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': 'Bear 1F8E9119293D34903371897CB1483FF66D25FDDC5D03C1BED6CC47510550B069'
+                'Authorization': 'Bearer 1F8E9119293D34903371897CB1483FF66D25FDDC5D03C1BED6CC47510550B069'
             }
         })
         .then(res => res.json())
